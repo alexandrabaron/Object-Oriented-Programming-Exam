@@ -1,0 +1,92 @@
+using namespace std;
+
+
+#include <iostream>
+#include <math.h>
+#include <stdbool.h> 
+#include <string>
+#include <fstream> 
+#include <vector>
+#include "Nation.h"
+#include "TabNations.h"
+#include "TabMedailles.h"
+
+TabMedailles::TabMedailles()
+{}
+
+
+TabMedailles::TabMedailles(const string& nomFichier)
+{
+	ifstream fic(nomFichier);
+	while(!fic.fail())
+	{
+		
+		string newN;
+		int nbOr, nbArgent, nbBronze;
+		fic>>newN>>nbOr>>nbArgent>>nbBronze;
+		if(!fic.fail()) //données lues ok
+		{
+			Nation nat(newN);
+			nat.setMedailles(nbOr, nbArgent, nbBronze);
+			TabNations::ajouterNation(nat);	
+		}
+	}
+}
+
+int TabMedailles::getMedailles(const string& nom, Metal metal) const
+{
+	int index = TabNations::chercher(nom);
+	if(index >-1)
+	{
+		return TabNations::getNation(index).getMedailles(metal);
+	}
+	else return 0;
+}
+
+bool TabMedailles::setMedailles(const string& nom, int nbOr, int nbArgent, int nbBronze)
+//on set = met à, pas ajoute
+{
+	int index = TabNations::chercher(nom);
+	
+	if(index >-1)
+	{
+		TabNations::getNation(index).setMedailles(nbOr, nbArgent, nbBronze);
+		return true;
+	}
+	else if(index == -1)
+	{
+		Nation nat(nom, nbOr, nbArgent, nbBronze); 
+		TabNations::ajouterNation(nat);
+		return true;
+	}
+	return false;
+}
+bool TabMedailles::ajouterMedailles(const string& nom, Metal metal, int nb)
+{
+	int index = TabNations::chercher(nom);
+	
+	if(index >-1)
+	{
+		TabNations::getNation(index).ajouterMedailles(metal, nb);
+		return true;
+	}
+	else if(index == -1)
+	{
+		Nation nat(nom);
+		nat.ajouterMedailles(metal, nb);
+		TabNations::ajouterNation(nat);
+		return true;
+	}
+	return false;
+}
+
+void TabMedailles::mettreTabDansFic(const string& nomFichier) const
+{
+	ofstream fic(nomFichier);
+	for(int i=0; i< TabNations::getNbNations(); i++)
+	{
+		fic<<TabNations::getNation(i);
+	}
+}
+
+

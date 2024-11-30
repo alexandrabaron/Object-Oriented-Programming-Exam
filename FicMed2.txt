@@ -1,0 +1,6 @@
+France : Or = 3 : Argent = 0 : Bronze = 7
+Italie : Or = 25 : Argent = 12 : Bronze = 0
+Mexique : Or = 4 : Argent = 0 : Bronze = 0
+Argentine : Or = 0 : Argent = 0 : Bronze = 0
+Brésil : Or = 1 : Argent = 1 : Bronze = 1
+Pologne : Or = 2 : Argent = 4 : Bronze = 8
